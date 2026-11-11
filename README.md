@@ -14,12 +14,12 @@ Built to deliver cost-effective, high-quality social media reels at scale. Unlik
 ### 1. Core n8n Workflow Architecture
 *The complete orchestration canvas showing Google Sheets integration, LLM sub-agents, generation loops, and bash processing:*
 
-![Workflow Architecture](01-workflow-architecture.jpg)
+![Workflow Architecture](01-workflow-architecture.png)
 
 ### 2. Successful Pipeline Execution
 *Live execution logs proving successful data flow, API authentications, loop iterations, and final video rendering (Green Ticks):*
 
-![Workflow Execution](02-workflow-execution.jpg)
+![Workflow Execution](02-workflow-execution.png)
 
 ---
 
