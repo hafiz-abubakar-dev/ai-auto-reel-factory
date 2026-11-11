@@ -1,0 +1,1702 @@
+{
+  "name": "AI Auto-Reel Factory",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -928,
+        -960
+      ],
+      "id": "41b40648-3aaa-45f1-a3a5-0566105553a7",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID_HERE",
+          "mode": "list",
+          "cachedResultName": "jabbar cloth flow",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID_HERE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID_HERE/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -656,
+        -1152
+      ],
+      "id": "b547ce5e-0707-4898-9a57-8ca804839e29",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleApi": {
+          "id": "",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6cfb4931-19cd-47aa-a9cb-843f3e4965d1",
+              "name": "Previous Scripts",
+              "value": "={{ $json.Script }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -624,
+        -928
+      ],
+      "id": "9fe1d779-24aa-445c-a74f-16f7b34def86",
+      "name": "Previous Scripts"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Previous Scripts"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        -928
+      ],
+      "id": "028f358f-2b71-477a-bf29-378f3a7b38c1",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        -176,
+        -1088
+      ],
+      "id": "e1272a85-8542-4845-8140-984636704e23",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"REEL_TITLE\": { \"type\": \"string\", \"description\": \"Urdu Arabic-script reel title\" },\n    \"HOOK\":       { \"type\": \"string\", \"description\": \"Arabic-script Urdu voiceover, ~6-8 words\" },\n    \"PROBLEM\":    { \"type\": \"string\", \"description\": \"Arabic-script Urdu voiceover, ~16-18 words\" },\n    \"SOLUTION\":   { \"type\": \"string\", \"description\": \"Arabic-script Urdu voiceover, ~24-26 words\" },\n    \"WIN\":        { \"type\": \"string\", \"description\": \"Arabic-script Urdu voiceover, ~14-16 words\" },\n    \"CTA\":        { \"type\": \"string\", \"description\": \"Arabic-script Urdu voiceover with Arif Bazar, Burewala + 03007592892\" }\n  },\n  \"required\": [\"REEL_TITLE\",\"HOOK\",\"PROBLEM\",\"SOLUTION\",\"WIN\",\"CTA\"],\n  \"additionalProperties\": false\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -112,
+        -752
+      ],
+      "id": "896079c5-09f8-484d-84c8-27647f3d20d1",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        -1088
+      ],
+      "id": "115c4233-81dd-40d2-a566-dd7398609254",
+      "name": "Think1"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"output\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"scene1\": {\n          \"type\": \"string\",\n          \"description\": \"Scene 1 breakdown details\"\n        },\n        \"scene2\": {\n          \"type\": \"string\",\n          \"description\": \"Scene 2 breakdown details\"\n        },\n        \"scene3\": {\n          \"type\": \"string\",\n          \"description\": \"Scene 3 breakdown details\"\n        },\n        \"scene4\": {\n          \"type\": \"string\",\n          \"description\": \"Scene 4 breakdown details\"\n        }\n      },\n      \"required\": [\n        \"scene1\",\n        \"scene2\",\n        \"scene3\",\n        \"scene4\"\n      ]\n    }\n  },\n  \"required\": [\n    \"output\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        -752
+      ],
+      "id": "1edca4dc-6167-4190-8092-6da2dd02aa9c",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID_HERE",
+          "mode": "list",
+          "cachedResultName": "jabbar cloth flow",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID_HERE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID_HERE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Script": "={{ $('Script Genrater').item.json.output }}",
+            "Scene 1": "={{ $json.output.scene1 }}",
+            "Scene 2": "={{ $json.output.scene2 }}",
+            "Scene 3": "={{ $json.output.scene3 }}",
+            "Scene 4": "={{ $json.output.scene4 }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Script",
+              "displayName": "Script",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Scene 1",
+              "displayName": "Scene 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Scene 2",
+              "displayName": "Scene 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Scene 3",
+              "displayName": "Scene 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Scene 4",
+              "displayName": "Scene 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt 1",
+              "displayName": "Image Prompt 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt 2",
+              "displayName": "Image Prompt 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt 3",
+              "displayName": "Image Prompt 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt 4",
+              "displayName": "Image Prompt 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image 1",
+              "displayName": "Image 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image 2",
+              "displayName": "Image 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image 3",
+              "displayName": "Image 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image 4",
+              "displayName": "Image 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Prompt 1",
+              "displayName": "Video Prompt 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Prompt 2",
+              "displayName": "Video Prompt 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Prompt 3",
+              "displayName": "Video Prompt 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Prompt 4",
+              "displayName": "Video Prompt 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        480,
+        -800
+      ],
+      "id": "804dcbaa-4dd3-41cf-8467-eb533d974d19",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleApi": {
+          "id": "",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Task\nCreate a **sitcom-style video script** of **75-85 words** (32-second reel) for **Abdul Jabbar Cloth House**, a premium family clothing retail store. I will provide you my previous scripts; make sure to create a completely different and fresh concept from them.\n\nPrevious Scripts: {{ $json[\"Previous Scripts\"] }}\n\n# Context\nAbdul Jabbar Cloth House is a premier one-stop clothing destination located near MC Model High School, Arif Bazar, Burewala (Contact: 03007592892). We provide an excellent shopping experience for families by offering both ladies' and gents' garments under one roof.\n\n# Key Features\n- Premium unstitched and stitched fabrics for both men and women.\n- Latest trending designs, vibrant colors, and seasonal collections.\n- One-stop family shopping (no need to visit multiple shops).\n- High-quality, durable fabrics at family-friendly prices.\n\n# Value to Customers\n- Saves time and energy during wedding or festival shopping.\n- Eliminates the frustration of market-wandering for husbands and wives.\n- Provides peace of mind with guaranteed premium quality.\n\n# Target Personas\n- **Married Couples & Families:** Looking to do all their shopping together easily.\n- **Wedding/Event Shoppers:** Needing reliable, beautiful outfits on a deadline.\n- **Local Residents:** People from Burewala and nearby areas looking for the best local shop.\n\n# Vendor Pains (Before Abdul Jabbar -> After Abdul Jabbar)\n- **Wandering in markets** -> Peaceful shopping under one roof.\n- **Husband getting tired/bored** -> Husband happily finding premium gents' wash-and-wear.\n- **Quality doubts** -> 100% satisfaction with premium, long-lasting fabric.\n\n# Characters (Use for Roleplay/Dialogues)\n- **Ali (The Husband):** Impatient, easily stressed by crowded markets, just wants his clothes quickly but is amazed by the quality here.\n- **Sana (The Wife):** Fashion-conscious, detail-oriented, loves finding the perfect colors and designs, wants everything to be perfect.\n- **Jabbar Bhai (The Shop Expert):** Welcoming, calm, confident, and always brings out the exact fabric the customer is looking for.\n\n# Episode Arcs (Use for Story Inspiration)\n- **Phase 1:** Last-minute wedding/function shopping panic.\n- **Phase 2:** Eid/Festival preparation and the typical husband-wife shopping argument solved.\n- **Phase 3:** Husband trying to avoid shopping, but ending up buying more suits for himself than the wife.\n\n# Style & Format Guidance\n- **Tone:** Lighthearted family comedy, relatable Desi husband-wife dynamics, engaging and fast-paced.\n- **Structure:**\n  - [0-3s] Hook\n  - [3-9s] Problem\n  - [9-18s] Solution\n  - [18-24s] Win\n  - [24-32s] CTA\n- **Script Format:**\n  - Voiceover text\n  - Stage directions/visuals (e.g., \"Ali looks at his watch, Sana holds up a dress\")\n- **Visual Style:** 9:16 vertical, bright lighting, cinematic realism, happy faces.\n\n# Requirements\n- Each script must stay between **75-85 words**.\n- Be completely fresh (no repetition of past ideas from Previous Scripts).\n- Highlight a specific \"before/after\" pain point solved by Abdul Jabbar Cloth House.\n- End with a **clear CTA** mentioning the location (Arif Bazar, Burewala) and phone number (03007592892).\n- The final output script must be in **Roman Urdu / Urdu**.\n\n# CRITICAL RESTRICTIONS\n- **DO NOT** mention or imply low-quality, cheap, or \"Halki variety\" fabrics. Always portray the brand as premium and high-quality.\n- **DO NOT** mention clothes fading, shrinking, colors bleeding, or getting damaged (رنگ خراب ہونا یا کپڑا پھٹنا). Avoid any negative words related to fabric durability.\n- **DO NOT** restrict the script to only unstitched clothes; clearly imply or mention that both stitched and unstitched options are available.\n- **DO NOT** use overly formal or robotic language. Keep the dialogues natural, exactly how Pakistani families speak daily.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "## Role\nYou are a sitcom video scriptwriter for Abdul Jabbar Cloth House (premium family clothing, Burewala). Write a 20-second reel = 4 clips of 5 seconds, total ~40-45 Urdu words, from customer + shopkeeper perspective.\n\n## LANGUAGE (CRITICAL)\nALL voiceover MUST be Urdu ARABIC SCRIPT (Nastaliq). NEVER Roman/Latin.\n✅ آج کا چیلنج ہے\n❌ aaj ka challenge hai\nNatural spoken Pakistani Urdu. NO stage directions.\n\n## Word budget (HARD LIMIT — each value is ONE 5-second clip, ~2.5 words/sec)\n- HOOK: 4-5 words ONLY\n- PROBLEM: 6-7 words ONLY\n- SOLUTION: 10-12 words ONLY\n- WIN: 8-10 words ONLY\n- CTA: 10-12 words ONLY (must include Arif Bazar, Burewala + 03007592892)\nIf a line exceeds its budget, SHORTEN it. Brevity is mandatory.\n\n## Brand\nOne-stop premium family store: ladies + gents, unstitched + stitched, vibrant colors. Near MC Model High School, Arif Bazar, Burewala. Phone 03007592892.\n\n## Cast (use 2-3)\n- Ali (husband): impatient, stressed by bazaars, amazed by quality.\n- Sana (wife): detail-oriented, wants perfect color/design.\n- Jabbar Bhai (expert): welcoming, calm, brings exact fabric.\n\n## Story arc\n1. New challenge (wedding panic / bazaar fatigue / quality doubt / Eid argument).\n2. Light sitcom humor.\n3. Abdul Jabbar Cloth House = solution, one feature highlighted.\n4. Happy resolution + CTA with location + phone.\n5. NEVER repeat Previous Scripts.\n\n## Restrictions\n- NO cheap/halki fabric. Brand always premium.\n- NO fading/shrinking/tearing (رنگ خراب، کپڑا پھٹنا).\n- Both stitched + unstitched implied. No robotic language.\n\n## Output (STRICT — JSON object, 6 fields under \"output\", each value ONE line Arabic Urdu, NO newlines inside a value)\n{\n  \"output\": {\n    \"REEL_TITLE\": \"<short title>\",\n    \"HOOK\": \"<4-5 words>\",\n    \"PROBLEM\": \"<6-7 words>\",\n    \"SOLUTION\": \"<10-12 words>\",\n    \"WIN\": \"<8-10 words>\",\n    \"CTA\": \"<10-12 words with Arif Bazar, Burewala + 03007592892>\"\n  }\n}\nProduce ONLY that JSON.",
+          "maxIterations": 10
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -256,
+        -928
+      ],
+      "id": "86de900c-ec0d-4c89-8e51-065643977b47",
+      "name": "Script Genrater"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Scene 1: {{ $json['Scene 1'] }}\nScene 2: {{ $json['Scene 2'] }}\nScene 3: {{ $json['Scene 3'] }}\nScene 4: {{ $json['Scene 4'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "# Role\nYou are an AI image prompt generator. Create FOUR detailed, flattened-YAML image prompts — one per scene — for a photorealistic Pakistani family sitcom video (Abdul Jabbar Cloth House, Burewala). Use the 4 English scene descriptions provided in the user message (Scene 1..4) as the source of each scene's content.\n\n# Tasks\n* Convert each scene description into one flattened YAML prompt (single paragraph, no line breaks).\n* Keep narrative flow across the 4 prompts (chaos -> calm solution).\n* ALL characters are REAL humans, photorealistic — NEVER cartoon/illustration/stylized.\n* Lifelike Pakistani features, natural expressions, realistic interactions.\n* In every prompt state that attached character reference images are the primary reference: Ali (husband, 30s, impatient), Sana (wife, 30s, detail-oriented), Jabbar Bhai (shop expert, 40s, welcoming).\n\n# Scene guidance\n* Chaos scenes (1-2): crowded bazaar, harsh daylight, Ali tired/sweaty, Sana confused among shops.\n* Solution scenes (3-4): inside Abdul Jabbar Cloth House — clean bright warm interior, wooden shelves/counter, Jabbar Bhai presenting premium fabric, Ali & Sana relieved/happy.\n* Lighting: warm natural sun outside; bright clean warm light inside.\n\n# Rules\n* Output each prompt as ONE continuous paragraph, fields separated by spaces. NO quotes, NO backticks, NO markdown, NO line breaks inside a value.\n* Replace every SWAP_ME with scene-specific detail. Set image_number to 1,2,3,4 respectively.\n* NEVER render any text/logos inside the image.\n* Strictly prohibit cartoonish/exaggerated elements.\n\n# Flattened YAML template (fill all SWAP_ME; keys in this order)\nscene: SWAP_ME style: photorealistic Pakistani family sitcom shot: SWAP_ME composition: SWAP_ME camera_angle: SWAP_ME resolution: 1080x1920 lens: 35mm photorealistic sharp details natural depth look: high-fidelity photographic rendering lighting: primary: SWAP_ME secondary: SWAP_ME accents: SWAP_ME text_handling: no visible text in image visual_rules: prohibited_elements: cartoons logos illustrations text target_aspect_ratio: 9:16 metadata: series: Cloth House Promo task: Scene Illustration image_number: SWAP_ME tags: Shopping Family Fashion\n\n# Output (STRICT — exactly this JSON, no extra text)\n{\n  \"prompt1\": \"<flattened YAML for Scene 1>\",\n  \"prompt2\": \"<flattened YAML for Scene 2>\",\n  \"prompt3\": \"<flattened YAML for Scene 3>\",\n  \"prompt4\": \"<flattened YAML for Scene 4>\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -992,
+        -448
+      ],
+      "id": "f9ee3aed-3200-451a-8e9e-67ae31b03f60",
+      "name": "Image Genrater"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        -896,
+        -576
+      ],
+      "id": "723979d2-009a-45ec-a36c-59d2f7ad3168",
+      "name": "Think2"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"prompt1\": {\n      \"type\": \"string\",\n      \"description\": \"Image generation prompt for Scene 1 (Flattened YAML format)\"\n    },\n    \"prompt2\": {\n      \"type\": \"string\",\n      \"description\": \"Image generation prompt for Scene 2 (Flattened YAML format)\"\n    },\n    \"prompt3\": {\n      \"type\": \"string\",\n      \"description\": \"Image generation prompt for Scene 3 (Flattened YAML format)\"\n    },\n    \"prompt4\": {\n      \"type\": \"string\",\n      \"description\": \"Image generation prompt for Scene 4 (Flattened YAML format)\"\n    }\n  },\n  \"required\": [\n    \"prompt1\",\n    \"prompt2\",\n    \"prompt3\",\n    \"prompt4\"\n  ],\n  \"additionalProperties\": false\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -848,
+        -224
+      ],
+      "id": "715884e5-7fc3-4567-8b06-9955aba38a41",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID_HERE",
+          "mode": "list",
+          "cachedResultName": "jabbar cloth flow",
+          "cachedResultUrlYOUR_GOOGLE_SHEET_ID_HERE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID_HERE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Image Prompt 1": "={{ $json.output.prompt1 }}",
+            "Image Prompt 2": "={{ $json.output.prompt2 }}",
+            "Image Prompt 3": "={{ $json.output.prompt3 }}",
+            "Image Prompt 4": "={{ $json.output.prompt4 }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Script",
+              "displayName": "Script",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Scene 1",
+              "displayName": "Scene 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Scene 2",
+              "displayName": "Scene 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Scene 3",
+              "displayName": "Scene 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Scene 4",
+              "displayName": "Scene 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt 1",
+              "displayName": "Image Prompt 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt 2",
+              "displayName": "Image Prompt 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt 3",
+              "displayName": "Image Prompt 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt 4",
+              "displayName": "Image Prompt 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image 1",
+              "displayName": "Image 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image 2",
+              "displayName": "Image 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image 3",
+              "displayName": "Image 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image 4",
+              "displayName": "Image 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Prompt 1",
+              "displayName": "Video Prompt 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Prompt 2",
+              "displayName": "Video Prompt 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Prompt 3",
+              "displayName": "Video Prompt 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Prompt 4",
+              "displayName": "Video Prompt 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -624,
+        -448
+      ],
+      "id": "91a28db7-12f1-4dce-8c9d-06d4391cd3de",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleApi": {
+          "id": "",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output }} → HOOK: {{ $json.output.HOOK }}  | PROBLEM: {{ $json.output.PROBLEM }} | SOLUTION: {{ $json.output.SOLUTION }} | WIN: {{ $json.output.WIN }} | CTA: {{ $json.output.CTA }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "## Role\nYou break down a provided Urdu video script into exactly 4 VISUAL scene descriptions for AI video generation (Abdul Jabbar Cloth House, Burewala). You produce VISUALS ONLY — do NOT write voiceover/dialogue text; spoken Urdu lines are handled separately.\n\n## Input\nThe user message contains script sections (HOOK, PROBLEM, SOLUTION, WIN, CTA) in Urdu. Use them ONLY to understand the story and characters. Do NOT copy any Urdu into the output.\n\n## Brand & Characters (visual consistency)\n- Abdul Jabbar Cloth House: premium family clothing store, ladies + gents, unstitched + stitched fabrics, vibrant colors, bright warm interior, wooden shelves and counter.\n- Ali (husband): impatient, stressed, then relieved.\n- Sana (wife): detail-oriented, fashion-loving, then delighted.\n- Jabbar Bhai (shop expert): welcoming, calm, presents the exact fabric.\n\n## Visual Style (every scene)\n9:16 vertical, cinematic realism, bright happy lighting, natural motion, human-centered, action verbs (sighs, points, smiles, holds up fabric). NO on-screen text, NO logos, NO watermarks.\n\n## 4-Beat Structure (4 clips of 5 seconds each)\n- scene1: Hook/Problem — shopping stress (Sana worried, Ali frustrated with scattered cards / bazaar rush).\n- scene2: Escalation — tension (Ali checks watch, Sana holds a poor-fit suit, frustration peaks).\n- scene3: Solution — Abdul Jabbar Cloth House revealed; Jabbar Bhai presents premium fabric; relief on faces.\n- scene4: Win — happy couple with shopping bags / trying new outfits, warm smiles.\n\n## Output (CRITICAL FORMAT RULES)\n- Your ENTIRE response must be ONLY one JSON object. NOTHING before it, NOTHING after it. NO markdown, NO ```json fences, NO explanation.\n- The JSON MUST have a top-level key \"output\" wrapping the 4 scene keys. Do NOT put scene1 at the top level.\n- Each scene value = ONE self-contained English visual prompt (~25-40 words: setting, characters, action, lighting, mood, 9:16). NO Urdu, NO dialogue, NO timestamps inside the text.\n\nReturn EXACTLY this shape:\n{\n  \"output\": {\n    \"scene1\": \"English visual prompt for scene 1\",\n    \"scene2\": \"English visual prompt for scene 2\",\n    \"scene3\": \"English visual prompt for scene 3\",\n    \"scene4\": \"English visual prompt for scene 4\"\n  }\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        160,
+        -928
+      ],
+      "id": "83bf374b-9cf9-49c5-a48b-c5f784f4d455",
+      "name": "Scene,Beat"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        -352,
+        -576
+      ],
+      "id": "b44f02d7-560f-4451-a994-12d2f4512d8d",
+      "name": "Think3"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"prompt1\": {\n      \"type\": \"string\",\n      \"description\": \"Cinematic video prompt for Scene 1 (Flattened YAML format)\"\n    },\n    \"prompt2\": {\n      \"type\": \"string\",\n      \"description\": \"Cinematic video prompt for Scene 2 (Flattened YAML format)\"\n    },\n    \"prompt3\": {\n      \"type\": \"string\",\n      \"description\": \"Cinematic video prompt for Scene 3 (Flattened YAML format)\"\n    },\n    \"prompt4\": {\n      \"type\": \"string\",\n      \"description\": \"Cinematic video prompt for Scene 4 (Flattened YAML format)\"\n    }\n  },\n  \"required\": [\n    \"prompt1\",\n    \"prompt2\",\n    \"prompt3\",\n    \"prompt4\"\n  ],\n  \"additionalProperties\": false\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -304,
+        -240
+      ],
+      "id": "eba1afde-8261-42c9-9d0a-bd886f9fdfb5",
+      "name": "Structured Output Parser3"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID_HERE",
+          "mode": "list",
+          "cachedResultName": "jabbar cloth flow",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID_HERE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID_HERE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Video Prompt 1": "={{ $json.output.prompt1 }}",
+            "Video Prompt 2": "={{ $json.output.prompt2 }}",
+            "Video Prompt 3": "={{ $json.output.prompt3 }}",
+            "Video Prompt 4": "={{ $json.output.prompt4 }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Script",
+              "displayName": "Script",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Scene 1",
+              "displayName": "Scene 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Scene 2",
+              "displayName": "Scene 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Scene 3",
+              "displayName": "Scene 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Scene 4",
+              "displayName": "Scene 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image Prompt 1",
+              "displayName": "Image Prompt 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image Prompt 2",
+              "displayName": "Image Prompt 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image Prompt 3",
+              "displayName": "Image Prompt 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image Prompt 4",
+              "displayName": "Image Prompt 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image 1",
+              "displayName": "Image 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image 2",
+              "displayName": "Image 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image 3",
+              "displayName": "Image 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image 4",
+              "displayName": "Image 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video Prompt 1",
+              "displayName": "Video Prompt 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video Prompt 2",
+              "displayName": "Video Prompt 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video Prompt 3",
+              "displayName": "Video Prompt 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video Prompt 4",
+              "displayName": "Video Prompt 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -80,
+        -448
+      ],
+      "id": "dc5d1e3c-3863-48bc-8233-39ca7e477b83",
+      "name": "Append row in sheet2",
+      "credentials": {
+        "googleApi": {
+          "id": "",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Beat 1: {{ $('Scene,Beat').item.json.output.scene1 }}\nBeat 2: {{ $('Scene,Beat').item.json.output.scene2 }}\nBeat 3: {{ $('Scene,Beat').item.json.output.scene3 }}\nBeat 4: {{ $('Scene,Beat').item.json.output.scene4 }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "# Role\nYou are an expert AI video prompt generator for a cinematic image-to-video model (Runway Gen-3 style). Create four highly detailed video prompts, each an 8-second beat of an \"Abdul Jabbar Cloth House\" promo. Use the 4 English beat descriptions in the user message.\n\n# Tasks & Tone\n* 100% ultra-photorealistic, cinematic style. Real lifelike humans, natural skin, dynamic lighting, micro-expressions.\n* Tone: premium family sitcom realism (market chaos -> luxurious relief at shop).\n\n# Core Cast (consistent)\n1. Ali (husband, 30s): impatient, stressed, casual clothes, slight sweat in market.\n2. Sana (wife, 30s): fashion-conscious, expressive, carrying bags, seeking perfection.\n3. Jabbar Bhai (expert, 40s): calm, confident, welcoming, neat traditional clothes.\n\n# CRITICAL — VISUALS + MOTION ONLY\n* This prompt describes IMAGE MOTION ONLY. Do NOT write any voiceover/dialogue/spoken lines. Spoken Urdu is added separately via TTS.\n* Characters act with expressions/gestures/body language; they do NOT lip-sync or speak.\n* The \"audio\" field below = ambient background sound/music only, NEVER speech.\n\n# Scene, Camera & Lighting\n* Chaos scenes (1-2): harsh daylight, crowded blurred bazaar, stressed faces. Camera: handheld slight shake, quick pans.\n* Solution scenes (3-4): clean bright premium shop, vibrant fabrics, soft diffused warm light. Camera: smooth dolly-in / steady-cam.\n\n# Rules\n1. Output exactly ONE JSON object with keys prompt1, prompt2, prompt3, prompt4.\n2. Each value = ONE single-paragraph plain text. No line breaks, no tabs, no inner quotes.\n3. NEVER render any text/logos/watermarks on frames. 100% text-free visuals.\n\n# Flattened YAML template (exact order; fill all SWAP_ME; NO voice_over field)\nscene: SWAP_ME style: ultra-photorealistic, cinematic sitcom realism shot: SWAP_ME camera_motion: SWAP_ME frame_rate: 24 fps resolution: 1080x1920 lens: 35mm premium lens, sharp details, shallow depth of field look: lifelike human micro-expressions with natural motion duration_sec: 8 timeline: time: 0.0-2.0 s action: SWAP_ME time: 2.0-4.0 s action: SWAP_ME time: 4.0-6.0 s action: SWAP_ME time: 6.0-8.0 s action: SWAP_ME lighting: primary: SWAP_ME secondary: SWAP_ME audio: ambient: SWAP_ME sfx: SWAP_ME text_rules: strictly no on-screen text visual_rules: prohibited_elements: cartoons logos text target_aspect_ratio: 9:16 metadata: series: Cloth House Premium Promo task: Cinematic Video Scene\n\n# Output (STRICT JSON, no markdown, no extra text)\n{\n  \"prompt1\": \"<flattened YAML for Beat 1>\",\n  \"prompt2\": \"<flattened YAML for Beat 2>\",\n  \"prompt3\": \"<flattened YAML for Beat 3>\",\n  \"prompt4\": \"<flattened YAML for Beat 4>\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -448,
+        -448
+      ],
+      "id": "9c96b76c-42e5-4a4c-aa3f-f873a6c94781",
+      "name": "Video genrater prompt"
+    },
+    {
+      "parameters": {
+        "model": "qwen3.7-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAlibabaCloud",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        -768
+      ],
+      "id": "4eb59452-47ee-4fb0-b282-a3264f62090d",
+      "name": "Qwen Cloud Chat Model",
+      "credentials": {
+        "alibabaCloudApi": {
+          "id": "",
+          "name": "Qwen Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen3.7-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAlibabaCloud",
+      "typeVersion": 1,
+      "position": [
+        144,
+        -752
+      ],
+      "id": "452aac49-1e73-48f0-ac9e-b3b1bd46f51b",
+      "name": "Qwen Cloud Chat Model1",
+      "credentials": {
+        "alibabaCloudApi": {
+          "id": "",
+          "name": "Qwen Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen3.7-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAlibabaCloud",
+      "typeVersion": 1,
+      "position": [
+        -992,
+        -224
+      ],
+      "id": "9aee5642-484f-4f3e-b2ea-0c7dd2615dca",
+      "name": "Qwen Cloud Chat Model2",
+      "credentials": {
+        "alibabaCloudApi": {
+          "id": "",
+          "name": "Qwen Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen3.7-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAlibabaCloud",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        -240
+      ],
+      "id": "6b630699-3f71-48e2-83bb-e20f75826734",
+      "name": "Qwen Cloud Chat Model3",
+      "credentials": {
+        "alibabaCloudApi": {
+          "id": "",
+          "name": "Qwen Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        368,
+        -448
+      ],
+      "id": "1f0b11de-bf5d-4cdd-bc6b-67dbb4d2a175",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://ws-5oovhkelo8me9g3z.ap-southeast-1.maas.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer your_api_key_here"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"z-image-turbo\",\n  \"input\": {\n    \"messages\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"text\": \"{{ $json.prompt }}\"\n          }\n        ]\n      }\n    ]\n  },\n  \"parameters\": {\n    \"prompt_extend\": false,\n    \"size\": \"1024*1024\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        144,
+        -112
+      ],
+      "id": "16d265a3-9786-40de-bb34-d37e8df4b2f6",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.output.choices[0].message.content[0].image }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        352,
+        -112
+      ],
+      "id": "eb63a5c6-270e-4e9b-91c6-dae0e82610f1",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "YOUR_DRIVE_FOLDER_ID_HERE",
+          "mode": "list",
+          "cachedResultName": "Video Genrater",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID_HERE"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        544,
+        -112
+      ],
+      "id": "21312508-b0b7-4689-ab76-0373b485f47a",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "imageToVideo",
+        "modelId": {
+          "__rl": true,
+          "value": "wan2.1-i2v-turbo",
+          "mode": "list",
+          "cachedResultName": "wan2.1-i2v-turbo"
+        },
+        "imgUrl": "=https://lh3.googleusercontent.com/d/{{ $json.id }}",
+        "prompt": "={{ $('Code in Python').item.json.prompt }}",
+        "resolution": "720P",
+        "imageToVideoOptions": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.alibabaCloud",
+      "typeVersion": 1.1,
+      "position": [
+        736,
+        -112
+      ],
+      "id": "3b26fd47-7b59-4110-ab53-6c281e025056",
+      "name": "Generate video from image",
+      "credentials": {
+        "alibabaCloudApi": {
+          "id": "",
+          "name": "Qwen Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "=scene_{{ $('Code in Python').item.json.scene }}.mp4",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "YOUR_DRIVE_FOLDER_ID_HERE",
+          "mode": "list",
+          "cachedResultName": "Scene Clips",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID_HERE"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1616,
+        -112
+      ],
+      "id": "be5a5011-de88-4057-acdf-06aeab3acfc8",
+      "name": "Upload file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "printf \"file '/tmp/clip_a1.mp4'\\nfile '/tmp/clip_a2.mp4'\\nfile '/tmp/clip_a3.mp4'\\nfile '/tmp/clip_a4.mp4'\\n\" > /tmp/list.txt && ffmpeg -y -f concat -safe 0 -i /tmp/list.txt -c copy /tmp/final_video.mp4 && ls -lh /tmp/final_video.mp4\n"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        608,
+        -464
+      ],
+      "id": "6e27ddc5-6bbf-46fb-a7f1-962f3ad92be5",
+      "name": "Execute Command"
+    },
+    {
+      "parameters": {
+        "name": "Final_Complete_Video.mp4",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "YOUR_DRIVE_FOLDER_ID_HERE",
+          "mode": "list",
+          "cachedResultName": "Complite Video Genrate",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID_HERE"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1008,
+        -464
+      ],
+      "id": "3d3eb2db-e3a3-4a5b-a798-28b68b7d663a",
+      "name": "Upload file2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/tmp/clip_{{ $('Code in Python').item.json.scene }}.mp4",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        944,
+        -112
+      ],
+      "id": "9e8a420f-6747-4571-9922-937aa526ff27",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "fileSelector": "/tmp/final_video.mp4",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        832,
+        -464
+      ],
+      "id": "f124fbcf-bf3d-4bb8-9b9b-d2068f1c436f",
+      "name": "Read/Write Files from Disk1"
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "=cat > /tmp/text_{{ $('Code in Python').item.json.scene }}.txt <<'EOF'\n{{ $('Code in Python').item.json.voice_over }}\nEOF\nif [ ! -s /tmp/text_{{ $('Code in Python').item.json.scene }}.txt ]; then echo \"ERROR: empty voice_over scene {{ $('Code in Python').item.json.scene }}\"; exit 1; fi\npython3 -m edge_tts --file /tmp/text_{{ $('Code in Python').item.json.scene }}.txt --voice ur-PK-UzmaNeural --rate=+15% --write-media /tmp/audio_{{ $('Code in Python').item.json.scene }}.mp3 && ls -lh /tmp/audio_{{ $('Code in Python').item.json.scene }}.mp3\n"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        -112
+      ],
+      "id": "ebd92248-48c6-430f-975c-ec4fd346b96e",
+      "name": "TTS"
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "=ffmpeg -y -i /tmp/clip_{{ $('Code in Python').item.json.scene }}.mp4 -i /tmp/audio_{{ $('Code in Python').item.json.scene }}.mp3 -vf \"fps=30,scale=720:1280:force_original_aspect_ratio=decrease,pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1\" -c:v libx264 -preset veryfast -crf 23 -c:a aac -ar 44100 -ac 2 -b:a 128k -shortest /tmp/clip_a{{ $('Code in Python').item.json.scene }}.mp4 && ls -lh /tmp/clip_a{{ $('Code in Python').item.json.scene }}.mp4\n"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        -112
+      ],
+      "id": "3b607a4a-8ce7-43c8-9f96-b7e3b4659e92",
+      "name": "Mux"
+    },
+    {
+      "parameters": {
+        "jsCode": "const vg = $('Video genrater prompt').first().json.output;   // {prompt1..4}\nconst sg = $('Script Genrater').first().json.output;         // {HOOK, PROBLEM, SOLUTION, WIN, CTA}\n\nconst voice = {\n  1: (sg.HOOK + ' ' + sg.PROBLEM).trim(),\n  2: sg.SOLUTION,\n  3: sg.WIN,\n  4: sg.CTA,\n};\n\nreturn [\n  { json: { prompt: vg.prompt1, voice_over: voice[1], scene: 1 } },\n  { json: { prompt: vg.prompt2, voice_over: voice[2], scene: 2 } },\n  { json: { prompt: vg.prompt3, voice_over: voice[3], scene: 3 } },\n  { json: { prompt: vg.prompt4, voice_over: voice[4], scene: 4 } },\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        144,
+        -448
+      ],
+      "id": "8768d1bd-4b56-4762-91b0-f4325188a6ea",
+      "name": "Code in Python"
+    },
+    {
+      "parameters": {
+        "fileSelector": "=/tmp/clip_a{{ $('Code in Python').item.json.scene }}.mp4",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1456,
+        -112
+      ],
+      "id": "b6aad71d-ec5a-4965-a64d-36184f5e466e",
+      "name": "Read/Write Files from Disk2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Previous Scripts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Previous Scripts": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Script Genrater",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Script Genrater",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Script Genrater",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Scene,Beat",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Scene,Beat",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Image Genrater",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Script Genrater": {
+      "main": [
+        [
+          {
+            "node": "Scene,Beat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Image Genrater",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Image Genrater",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image Genrater": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Video genrater prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scene,Beat": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think3": {
+      "ai_tool": [
+        [
+          {
+            "node": "Video genrater prompt",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser3": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Video genrater prompt",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Code in Python",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video genrater prompt": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qwen Cloud Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Script Genrater",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qwen Cloud Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Scene,Beat",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qwen Cloud Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Image Genrater",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qwen Cloud Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Video genrater prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Generate video from image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate video from image": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "TTS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TTS": {
+      "main": [
+        [
+          {
+            "node": "Mux",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mux": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in Python": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk2": {
+      "main": [
+        [
+          {
+            "node": "Upload file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk1": {
+      "main": [
+        [
+          {
+            "node": "Upload file2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "4e230c8a-5e6e-45e6-8433-d26615949d20",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": ""
+  },
+  "nodeGroups": [],
+  "id": "qreveldGezAyOiDn",
+  "tags": []
+}
